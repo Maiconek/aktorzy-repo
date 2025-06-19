@@ -22,7 +22,7 @@ public class AkkaConfig {
                 .baseUrl("https://vt-app-serviceapp-dmbthkaqe6a3ffh0.polandcentral-01.azurewebsites.net")
                 .build();
         return actorSystem.actorOf(
-                new RoundRobinPool(10).props(Props.create(StudentActor.class, restClient)),
+                new RoundRobinPool(2).props(Props.create(StudentActor.class, restClient)),
                 "studentActorRouter"
         );    }
 }
