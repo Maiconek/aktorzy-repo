@@ -21,8 +21,11 @@ public class AkkaConfig {
         RestClient restClient = restClientBuilder
                 .baseUrl("https://vt-app-serviceapp-dmbthkaqe6a3ffh0.polandcentral-01.azurewebsites.net")
                 .build();
+
         return actorSystem.actorOf(
                 new RoundRobinPool(400).props(Props.create(StudentActor.class, restClient)),
                 "studentActorRouter"
-        );    }
+        );
+    }
+
 }
