@@ -17,15 +17,10 @@ public class AkkaConfig {
     }
 
     @Bean
-    public ActorRef studentActor(ActorSystem actorSystem, RestClient.Builder restClientBuilder) {
-        RestClient restClient = restClientBuilder
-                .baseUrl("https://vt-app-serviceapp-dmbthkaqe6a3ffh0.polandcentral-01.azurewebsites.net")
-                .build();
-
+    public ActorRef studentActor(ActorSystem actorSystem, RestClient restClient) {
         return actorSystem.actorOf(
                 new RoundRobinPool(400).props(Props.create(StudentActor.class, restClient)),
                 "studentActorRouter"
         );
     }
-
 }

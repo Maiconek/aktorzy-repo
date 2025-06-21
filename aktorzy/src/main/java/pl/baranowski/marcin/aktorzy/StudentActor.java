@@ -17,23 +17,6 @@ public class StudentActor extends AbstractActor {
         this.restClient = restClient;
     }
 
-//    @Override
-//    public Receive createReceive() {
-//        return receiveBuilder()
-//                .match(Integer.class, seconds -> {
-//                    // Przetwarzanie żądania
-//                    log.info("Processing block request for {} seconds", seconds);
-//                    ResponseEntity<Void> result = restClient.get()
-//                            .uri("/students/block/" + seconds)
-//                            .retrieve()
-//                            .toBodilessEntity();
-//
-//                    // Odpowiedź
-//                    getSender().tell(result.getStatusCode().toString(), getSelf());
-//                })
-//                .build();
-//    }
-
     @Override
     public Receive createReceive() {
         return receiveBuilder()

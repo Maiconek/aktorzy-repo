@@ -17,32 +17,35 @@ import org.springframework.web.client.RestClient;
 public class RestClientConfig {
 
     @Bean
-    public RestClient.Builder restClientBuilder() {
+    public RestClient restClient() {
         // Tworzenie menedżera połączeń
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-        connectionManager.setMaxTotal(1000); // Całkowita pula połączeń
-        connectionManager.setDefaultMaxPerRoute(800); // Dla jednego hosta
+        connectionManager.setMaxTotal(1000); // dla wszystkich hostow
+        connectionManager.setDefaultMaxPerRoute(800); // dla pojedynczego hosta
 
         // Konfiguracja timeoutów
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectTimeout(Timeout.ofSeconds(40))   // max czas na połączenie
-                .setResponseTimeout(Timeout.ofSeconds(60))  // max czas oczekiwania na odpowiedź
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(Timeout.ofSeconds(40))
+                .setResponseTimeout(Timeout.ofSeconds(60))
                 .build();
 
-        // Tworzenie klienta Apache HttpClient
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setConnectionManager(connectionManager)
-                .setDefaultRequestConfig(requestConfig)
-                .evictIdleConnections(TimeValue.ofSeconds(30)) // zamykanie nieużywanych połączeń
-                .build();
+        // Tworzenie klienta Apache
+        CloseableHttpClient httpClient =
+                HttpClients.custom()
+                        .setConnectionManager(connectionManager)
+                        .setDefaultRequestConfig(config)
+                        .evictIdleConnections(TimeValue.ofSeconds(30))
+                        .build();
 
-        // Adapter do Springa
+        // Adapter do Springa (tu używamy Apache HttpClient!)
         HttpComponentsClientHttpRequestFactory requestFactory =
                 new HttpComponentsClientHttpRequestFactory(httpClient);
 
-        // Zwracamy builder, nie gotowy klient
+        // Tworzenie RestClient z naszą fabryką
         return RestClient.builder()
-                .requestFactory(requestFactory);
+                .requestFactory(requestFactory)
+                .baseUrl("https://vt-app-serviceapp-dmbthkaqe6a3ffh0.polandcentral-01.azurewebsites.net")
+                .build();
     }
 }
 
