@@ -25,14 +25,18 @@ public class StudentActor extends AbstractActor {
 
                     CompletableFuture
                             .supplyAsync(() -> {
-                                log.info("Processing block request for {} seconds", seconds);
-                                ResponseEntity<Void> result = restClient.get()
-                                        .uri("/students/block/" + seconds)
-                                        .retrieve()
-                                        .toBodilessEntity();
-                                return result.getStatusCode().toString();
+                                try {
+                                    ResponseEntity<Void> result = restClient.get()
+                                            .uri("/students/block/" + seconds)
+                                            .retrieve()
+                                            .toBodilessEntity();
+                                    return result.getStatusCode().toString();
+                                } catch (Exception e) {
+                                    return "ERROR: " + e.getMessage();  // lub inna forma błędu
+                                }
                             })
                             .thenAccept(response -> senderRef.tell(response, getSelf()));
+
                 })
                 .build();
     }
