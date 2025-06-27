@@ -21,7 +21,7 @@ public class StudentActor extends AbstractActor {
     public Receive createReceive() {
         return receiveBuilder()
                 .match(Integer.class, seconds -> {
-                    ActorRef senderRef = getSender();  // kopia bo później może się zmienić
+                    ActorRef senderRef = getSender();  
 
                     CompletableFuture
                             .supplyAsync(() -> {
@@ -32,7 +32,7 @@ public class StudentActor extends AbstractActor {
                                             .toBodilessEntity();
                                     return result.getStatusCode().toString();
                                 } catch (Exception e) {
-                                    return "ERROR: " + e.getMessage();  // lub inna forma błędu
+                                    return "ERROR: " + e.getMessage(); 
                                 }
                             })
                             .thenAccept(response -> senderRef.tell(response, getSelf()));
