@@ -19,7 +19,7 @@ public class AkkaConfig {
     @Bean
     public ActorRef studentActor(ActorSystem actorSystem, RestClient restClient) {
         return actorSystem.actorOf(
-                new RoundRobinPool(500).props(Props.create(StudentActor.class, restClient)),
+                new RoundRobinPool(1000).props(Props.create(StudentActor.class, restClient)),
                 "studentActorRouter"
         );
     }
