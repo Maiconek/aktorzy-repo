@@ -34,7 +34,7 @@ public class HomeController {
         log.info("Received request to block for {} seconds", seconds);
 
         // Wysłanie wiadomości do aktora
-        Future<Object> future = Patterns.ask(studentActor, seconds, Timeout.durationToTimeout(Duration.create(30, "seconds")));
+        Future<Object> future = Patterns.ask(studentActor, seconds, Timeout.durationToTimeout(Duration.create(60, "seconds")));
 
         // Konwersja Scala Future na Java CompletionStage
         return scala.compat.java8.FutureConverters.toJava(future).thenApply(Object::toString);

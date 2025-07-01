@@ -25,8 +25,8 @@ public class RestClientConfig {
 
         // Konfiguracja timeoutów
         RequestConfig config = RequestConfig.custom()
-                .setConnectTimeout(Timeout.ofSeconds(40))
-                .setResponseTimeout(Timeout.ofSeconds(60))
+                .setConnectTimeout(Timeout.ofSeconds(90))
+                .setResponseTimeout(Timeout.ofSeconds(120))
                 .build();
 
         // Tworzenie klienta Apache
@@ -34,7 +34,7 @@ public class RestClientConfig {
                 HttpClients.custom()
                         .setConnectionManager(connectionManager)
                         .setDefaultRequestConfig(config)
-                        .evictIdleConnections(TimeValue.ofSeconds(30))
+                        .evictIdleConnections(TimeValue.ofSeconds(60))
                         .build();
 
         // Adapter do Springa (tu używamy Apache HttpClient!)
